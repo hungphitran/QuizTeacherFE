@@ -75,13 +75,11 @@ export default function EditQuestionPage() {
           content: values.question, // Map question to content
           points: values.points,
           type: values.type,
-          options: {
-            create: values.options.map((opt, index) => ({
-              content: opt.label, // Map label to content
-              isCorrect: opt.is_correct ?? false, // Map is_correct to isCorrect (camelCase)
-              order: index, // Add order for options
-            })),
-          },
+          options: values.options.map((opt, index) => ({
+            content: opt.label, // Map label to content
+            isCorrect: opt.is_correct ?? false, // Map is_correct to isCorrect (camelCase)
+            order: index, // Add order for options
+          })),
         },
         tokens.accessToken,
       );

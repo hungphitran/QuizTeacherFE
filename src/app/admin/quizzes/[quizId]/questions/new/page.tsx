@@ -53,14 +53,11 @@ export default function NewQuestionPage() {
           points: values.points || 1,
           order: order, // Set order based on current questions count
           type: values.type || "SINGLE_CHOICE",
-          quizId: Number(params.quizId), // Add quizId to payload
-          options: {
-            create: values.options.map((opt, index) => ({
-              content: opt.label, // Map label to content
-              isCorrect: opt.is_correct ?? false, // Map is_correct to isCorrect (camelCase)
-              order: index, // Add order for options
-            })),
-          },
+          options: values.options.map((opt, index) => ({
+            content: opt.label, // Map label to content
+            isCorrect: opt.is_correct ?? false, // Map is_correct to isCorrect (camelCase)
+            order: index, // Add order for options
+          })),
         },
         tokens.accessToken,
       );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Resolver } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QuizQuestion, QuizQuestionOption } from "@/types";
@@ -47,7 +47,7 @@ export const QuestionForm = ({ defaultValues, onSubmit, isLoading, onCancel }: P
     watch,
     formState: { errors },
   } = useForm<QuestionFormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as Resolver<QuestionFormValues>,
     defaultValues: defaultValues
       ? {
           question: defaultValues.question || defaultValues.content || "",
@@ -143,7 +143,6 @@ export const QuestionForm = ({ defaultValues, onSubmit, isLoading, onCancel }: P
           <Button
             type="button"
             variant="ghost"
-            size="sm"
             onClick={() => append({ label: "", value: String.fromCharCode(65 + fields.length), is_correct: false })}
           >
             <PlusIcon className="h-4 w-4 mr-1" />
@@ -195,7 +194,6 @@ export const QuestionForm = ({ defaultValues, onSubmit, isLoading, onCancel }: P
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
                 onClick={() => remove(index)}
                 className="text-red-600 hover:text-red-700 hover:bg-red-50"
               >

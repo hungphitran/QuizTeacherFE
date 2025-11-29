@@ -24,7 +24,7 @@ export interface AuthResponse {
 }
 
 export interface QuizQuestionOption {
-  id: number;
+  id?: number;
   label?: string;
   content?: string;
   value?: string;
@@ -80,7 +80,8 @@ export interface QuizPayload
   extends Omit<
     Quiz,
     "id" | "questions" | "description" | "title" | "created_by" | "duration" | "createdAt" | "updatedAt"
-  > {
+  >,
+    Record<string, unknown> {
   title: string;
   description?: string;
   slug: string;

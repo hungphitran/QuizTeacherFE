@@ -188,9 +188,12 @@ export default function QuizAttemptsPage() {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {attempt.startedAt || attempt.start_at
-                        ? new Date(attempt.startedAt || attempt.start_at).toLocaleString("vi-VN")
-                        : "-"}
+                      {(() => {
+                        const startedAt = attempt.startedAt ?? attempt.start_at;
+                        return startedAt
+                          ? new Date(startedAt).toLocaleString("vi-VN")
+                          : "-";
+                      })()}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-semibold text-gray-900">
                       {attempt.score ?? "-"}

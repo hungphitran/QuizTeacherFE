@@ -203,7 +203,7 @@ export default function QuizStartPage() {
             </div>
 
             <div className="pt-4 border-t border-gray-200">
-              <Button type="submit" disabled={isSubmitting} className="w-full" size="lg">
+              <Button type="submit" disabled={isSubmitting} className="w-full">
                 {isSubmitting ? "Đang xử lý..." : "Bắt đầu làm bài"}
               </Button>
             </div>

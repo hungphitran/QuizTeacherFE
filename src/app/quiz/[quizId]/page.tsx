@@ -232,33 +232,33 @@ export default function QuizPage() {
 
       // Nếu chưa có serverAttemptId, thử tạo attempt trong database
       if (!currentServerAttemptId && studentInfo?.name) {
-        try {
-          // Chỉ gửi các field cần thiết, không gửi undefined
-          const attemptPayload: {
-            quizId: number;
-            studentId?: number;
-            studentName: string;
-            dateOfBirth?: string;
-            score: number;
-            className?: string;
-          } = {
-            quizId: Number(params.quizId),
-            studentName: studentInfo.name,
-            score: 0,
-          };
-          
-          if (studentInfo.studentId) {
-            attemptPayload.studentId = studentInfo.studentId;
-          }
-          
-          if (studentInfo.dateOfBirth) {
-            attemptPayload.dateOfBirth = studentInfo.dateOfBirth;
-          }
+        // Chỉ gửi các field cần thiết, không gửi undefined
+        const attemptPayload: {
+          quizId: number;
+          studentId?: number;
+          studentName: string;
+          dateOfBirth?: string;
+          score: number;
+          className?: string;
+        } = {
+          quizId: Number(params.quizId),
+          studentName: studentInfo.name,
+          score: 0,
+        };
+        
+        if (studentInfo.studentId) {
+          attemptPayload.studentId = studentInfo.studentId;
+        }
+        
+        if (studentInfo.dateOfBirth) {
+          attemptPayload.dateOfBirth = studentInfo.dateOfBirth;
+        }
 
-          if (studentInfo.className) {
-            attemptPayload.className = studentInfo.className;
-          }
-          
+        if (studentInfo.className) {
+          attemptPayload.className = studentInfo.className;
+        }
+
+        try {
           const attempt = await quizApi.startAttempt(
             attemptPayload,
             tokens?.accessToken, // Optional token
@@ -495,10 +495,10 @@ export default function QuizPage() {
                           value={option.value}
                           checked={
                             question.type === "MULTIPLE_CHOICE"
-                              ? answers[question.id]?.split(',').includes(option.value) || false
+                              ? (answers[question.id]?.split(',').includes(option.value ?? "") ?? false)
                               : answers[question.id] === option.value
                           }
-                          onChange={() => handleAnswerChange(question.id, option.value, question.type)}
+                          onChange={() => handleAnswerChange(question.id, option.value ?? "", question.type)}
                           disabled={submitted || isExpired}
                           className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
                         />

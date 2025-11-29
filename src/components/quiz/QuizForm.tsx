@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from "react-hook-form";
+import { useForm, Resolver } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Quiz } from "@/types";
@@ -34,7 +34,7 @@ export const QuizForm = ({ defaultValues, onSubmit, isLoading }: Props) => {
     watch,
     formState: { errors },
   } = useForm<QuizFormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as Resolver<QuizFormValues>,
     defaultValues: defaultValues
       ? {
           title: defaultValues.title,

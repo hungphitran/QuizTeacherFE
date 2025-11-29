@@ -84,8 +84,8 @@ export default function AttemptDetailPage() {
       const optionsMap: Record<number, string> = {};
       const correctOptions: number[] = [];
 
-      (question.options || []).forEach((option) => {
-        const optionId = option.id;
+      (question.options || []).forEach((option, index) => {
+        const optionId = option.id ?? index;
         const optionLabel = option.content || option.label || option.value || `Lựa chọn ${optionId}`;
         optionsMap[optionId] = optionLabel;
 
@@ -194,9 +194,12 @@ export default function AttemptDetailPage() {
             <div>
               <p className="text-xs uppercase tracking-wide text-gray-500">Bắt đầu</p>
               <p className="text-sm font-medium text-gray-900">
-                {attempt?.startedAt || attempt?.start_at
-                  ? new Date(attempt.startedAt || attempt.start_at).toLocaleString("vi-VN")
-                  : "-"}
+                {(() => {
+                  const startedAt = attempt?.startedAt ?? attempt?.start_at;
+                  return startedAt
+                    ? new Date(startedAt).toLocaleString("vi-VN")
+                    : "-";
+                })()}
               </p>
             </div>
           </div>

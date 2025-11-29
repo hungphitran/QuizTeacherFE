@@ -1,7 +1,7 @@
 import { apiFetch } from "@/lib/api";
 import { AuthResponse } from "@/types";
 
-interface LoginPayload {
+interface LoginPayload extends Record<string, unknown> {
   email: string;
   password: string;
 }
