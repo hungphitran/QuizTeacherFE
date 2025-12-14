@@ -22,7 +22,7 @@ interface AuthContextValue {
     email: string;
     password: string;
     fullName: string;
-    role: "USER" | "ADMIN" | "TEACHER";
+    role?: string;
   }) => Promise<AuthResponse>;
   logout: () => void;
 }
@@ -30,18 +30,13 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 // Helper function to normalize user data from backend
-const normalizeAuthData = (data: any): { user: User; tokens: AuthTokens } | null => {
-    if (!data) return null;
+const normalizeAuthData = (response: any): { user: User; tokens: AuthTokens } | null => {
+    if (!response) return null;
 
-    // Handle nested user structure: {user: {user: ..., tokens: ...}} or {user: ..., tokens: ...}
-    let userData = data.user || data;
-    let tokensData = data.tokens;
-
-    // If userData is still nested (has user.user), extract it
-    if (userData && userData.user) {
-      tokensData = userData.tokens || tokensData;
-      userData = userData.user;
-    }
+    // Extract from response wrapper: { data: { user, tokens }, message, status }
+    const data = response.data || response;
+    const userData = data.user;
+    const tokensData = data.tokens;
 
     if (!userData || !tokensData) return null;
 
@@ -53,13 +48,16 @@ const normalizeAuthData = (data: any): { user: User; tokens: AuthTokens } | null
       return role.toLowerCase() as UserRole;
     };
 
-    // Normalize field names: fullName -> full_name
+    // Normalize user data
     const normalizedUser: User = {
       id: userData.id,
       email: userData.email,
-      username: userData.username,
-      full_name: userData.full_name || userData.fullName,
+      full_name: userData.fullName || userData.full_name,
+      fullName: userData.fullName || userData.full_name,
+      avatar: userData.avatar,
       role: normalizeRole(userData.role),
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
     };
 
     return { user: normalizedUser, tokens: tokensData };
@@ -96,26 +94,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const handleAuthSuccess = useCallback((response: any) => {
-    // Normalize response from API (có thể có cấu trúc khác nhau)
+    // Normalize response from API
     const normalized = normalizeAuthData(response);
     if (!normalized) {
       throw new Error("Invalid auth response");
     }
 
-    // Save normalized data
+    // Save normalized data in the same format as API response
     persistAuthResponse({
-      user: normalized.user,
-      tokens: normalized.tokens,
+      data: {
+        user: normalized.user,
+        tokens: normalized.tokens,
+      },
       message: response.message || "Success",
+      status: response.status || 200,
     });
 
     setUser(normalized.user);
     setTokens(normalized.tokens);
 
     return {
-      user: normalized.user,
-      tokens: normalized.tokens,
+      data: {
+        user: normalized.user,
+        tokens: normalized.tokens,
+      },
       message: response.message || "Success",
+      status: response.status || 200,
     };
   }, []);
 
@@ -132,7 +136,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       email: string;
       password: string;
       fullName: string;
-      role: "USER" | "ADMIN" | "TEACHER";
+      role?: string;
     }) => {
       const response = await authApi.register(payload);
       return handleAuthSuccess(response);

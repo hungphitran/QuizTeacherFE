@@ -8,7 +8,7 @@ interface LoginPayload extends Record<string, unknown> {
 
 interface RegisterPayload extends LoginPayload {
   fullName: string;
-  role: "USER" | "ADMIN" | "TEACHER";
+  role?: string;
 }
 
 export const authApi = {

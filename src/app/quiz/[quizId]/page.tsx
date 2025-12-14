@@ -53,15 +53,15 @@ export default function QuizPage() {
         // Normalize questions data from backend
         const normalizedQuestions = questions.map((q: any) => ({
           id: q.id,
-          question: q.content || q.question || "",
+          content: q.content || "",
           points: q.points || 1,
           order: q.order ?? 0,
           type: q.type || "SINGLE_CHOICE",
           options: (q.options || []).map((opt: any, index: number) => ({
             id: opt.id || index,
-            label: opt.content || opt.label || "",
+            content: opt.content || opt.label || "",
             value: opt.value || String.fromCharCode(65 + index),
-            is_correct: opt.isCorrect ?? opt.is_correct ?? false,
+            isCorrect: opt.isCorrect ?? opt.is_correct ?? false,
           })),
           explanation: q.explanation,
         }));
@@ -231,28 +231,18 @@ export default function QuizPage() {
       let currentServerAttemptId = localAttempt.serverAttemptId;
 
       // Nếu chưa có serverAttemptId, thử tạo attempt trong database
-      if (!currentServerAttemptId && studentInfo?.name) {
-        // Chỉ gửi các field cần thiết, không gửi undefined
+      if (!currentServerAttemptId && studentInfo?.name && studentInfo?.dateOfBirth) {
+        // Chỉ gửi các field cần thiết theo API doc
         const attemptPayload: {
           quizId: number;
-          studentId?: number;
           studentName: string;
-          dateOfBirth?: string;
-          score: number;
+          dateOfBirth: string;
           className?: string;
         } = {
           quizId: Number(params.quizId),
           studentName: studentInfo.name,
-          score: 0,
+          dateOfBirth: studentInfo.dateOfBirth,
         };
-        
-        if (studentInfo.studentId) {
-          attemptPayload.studentId = studentInfo.studentId;
-        }
-        
-        if (studentInfo.dateOfBirth) {
-          attemptPayload.dateOfBirth = studentInfo.dateOfBirth;
-        }
 
         if (studentInfo.className) {
           attemptPayload.className = studentInfo.className;
@@ -474,7 +464,7 @@ export default function QuizPage() {
                       )}
                     </div>
                     <p className="text-base font-medium text-gray-900 leading-relaxed">
-                      {question.question}
+                      {question.content}
                     </p>
                   </div>
                 </div>

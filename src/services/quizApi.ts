@@ -64,10 +64,8 @@ export const quizApi = {
   startAttempt: (
     payload: { 
       quizId: number; 
-      studentId?: number;
       studentName: string;
-      dateOfBirth?: string;
-      score: number;
+      dateOfBirth: string;
       className?: string;
     },
     token?: string,

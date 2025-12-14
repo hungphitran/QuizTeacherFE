@@ -78,6 +78,11 @@ export async function apiFetch<TResponse>(
     );
   }
 
+  // Extract data from wrapper if API returns { data: ..., message, status }
+  if (payload && typeof payload === "object" && "data" in payload) {
+    return payload.data as TResponse;
+  }
+
   return payload as TResponse;
 }
 

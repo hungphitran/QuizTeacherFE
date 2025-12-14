@@ -8,7 +8,6 @@ export interface AuthTokens {
 export interface User {
   id: number;
   email: string;
-  username?: string;
   full_name?: string;
   fullName?: string;
   avatar?: string;
@@ -18,9 +17,12 @@ export interface User {
 }
 
 export interface AuthResponse {
-  user: User;
-  tokens: AuthTokens;
+  data: {
+    user: User;
+    tokens: AuthTokens;
+  };
   message: string;
+  status: number;
 }
 
 export interface QuizQuestionOption {
@@ -47,7 +49,6 @@ export interface PaginatedResponse<T> {
 
 export interface QuizQuestion {
   id: number;
-  question?: string;
   content?: string;
   points?: number;
   order?: number;
@@ -63,13 +64,8 @@ export interface Quiz {
   slug?: string;
   coverImage?: string;
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
-  duration?: number;
-  timeLimit?: number; // Backend uses timeLimit
-  randomize_questions?: boolean;
-  randomize_options?: boolean;
-  allow_multiple?: boolean;
+  timeLimit?: number;
   number_of_questions?: number;
-  created_by?: number;
   creatorId?: number;
   createdAt?: string;
   updatedAt?: string;
@@ -79,7 +75,7 @@ export interface Quiz {
 export interface QuizPayload
   extends Omit<
     Quiz,
-    "id" | "questions" | "description" | "title" | "created_by" | "duration" | "createdAt" | "updatedAt"
+    "id" | "questions" | "description" | "title" | "createdAt" | "updatedAt"
   >,
     Record<string, unknown> {
   title: string;
@@ -88,7 +84,7 @@ export interface QuizPayload
   coverImage?: string;
   status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   creatorId: number;
-  timeLimit: number; // Backend uses timeLimit instead of duration
+  timeLimit: number;
 }
 
 export interface QuizAttempt {
