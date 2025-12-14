@@ -81,7 +81,7 @@ export default function QuizPage() {
         
         if (existingAttempt) {
           // Kiểm tra xem thời gian đã hết chưa
-          const timeLimit = data.duration || data.timeLimit || 60;
+          const timeLimit = data.timeLimit || 60;
           const endTime = new Date(new Date(existingAttempt.startAt).getTime() + timeLimit * 60 * 1000);
           
           // Nếu thời gian chưa hết, khôi phục attempt đang làm
@@ -143,7 +143,7 @@ export default function QuizPage() {
 
   const endTime = useMemo(() => {
     if (!quiz || !startTime) return null;
-    const timeLimit = quiz.duration || quiz.timeLimit || 60;
+    const timeLimit = quiz.timeLimit || 60;
     return new Date(startTime.getTime() + timeLimit * 60 * 1000);
   }, [quiz, startTime]);
 
@@ -419,7 +419,7 @@ export default function QuizPage() {
                   </span>
                   <span>•</span>
                   <span>
-                    <span className="font-medium">Thời lượng:</span> {quiz.duration || quiz.timeLimit || 0} phút
+                    <span className="font-medium">Thời lượng:</span> {quiz.timeLimit || 0} phút
                   </span>
                   {quiz.questions && quiz.questions.length > 0 && (
                     <>

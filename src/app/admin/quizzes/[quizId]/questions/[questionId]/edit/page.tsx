@@ -38,7 +38,7 @@ export default function EditQuestionPage() {
         // Normalize question data from backend
         const normalizedQuestion: QuizQuestion = {
           id: questionResponse.id,
-          question: (questionResponse as any).content || questionResponse.question || "",
+          content: (questionResponse as any).content || "",
           options: (questionResponse as any).options || (questionResponse as any).body?.options || [],
           explanation: questionResponse.explanation || (questionResponse as any).body?.explanation,
         };

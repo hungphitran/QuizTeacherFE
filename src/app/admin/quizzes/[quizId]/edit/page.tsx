@@ -229,7 +229,7 @@ export default function EditQuizPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-sm font-medium text-gray-500">Câu {index + 1}:</span>
                       </div>
-                      <p className="text-sm font-medium text-gray-900 mb-3">{question.question}</p>
+                      <p className="text-sm font-medium text-gray-900 mb-3">{question.content}</p>
                       <div className="space-y-1">
                         {question.options && question.options.length > 0 ? (
                           question.options.map((option: any, optIndex: number) => (

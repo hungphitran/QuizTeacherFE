@@ -50,7 +50,7 @@ export const QuestionForm = ({ defaultValues, onSubmit, isLoading, onCancel }: P
     resolver: zodResolver(schema) as Resolver<QuestionFormValues>,
     defaultValues: defaultValues
       ? {
-          question: defaultValues.question || defaultValues.content || "",
+          question: defaultValues.content || "",
           explanation: defaultValues.explanation,
           points: defaultValues.points || 1,
           type: defaultValues.type || "SINGLE_CHOICE",

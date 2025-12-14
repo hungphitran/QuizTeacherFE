@@ -41,10 +41,7 @@ export const QuizForm = ({ defaultValues, onSubmit, isLoading }: Props) => {
           description: defaultValues.description,
           coverImage: defaultValues.coverImage || "",
           status: defaultValues.status || "DRAFT",
-          duration: defaultValues.duration || defaultValues.timeLimit || 30,
-          randomize_options: !!defaultValues.randomize_options,
-          randomize_questions: !!defaultValues.randomize_questions,
-          allow_multiple: !!defaultValues.allow_multiple,
+          duration: defaultValues.timeLimit || 30,
         }
       : {
           title: "",
@@ -52,9 +49,6 @@ export const QuizForm = ({ defaultValues, onSubmit, isLoading }: Props) => {
           coverImage: "",
           status: "DRAFT",
           duration: 30,
-          randomize_questions: true,
-          randomize_options: true,
-          allow_multiple: false,
         },
   });
 

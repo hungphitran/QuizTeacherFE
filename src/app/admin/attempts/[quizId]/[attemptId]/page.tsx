@@ -80,7 +80,7 @@ export default function AttemptDetailPage() {
     return questions.reduce<
       Record<number, { title: string; options: Record<number, string>; correctOptions: number[] }>
     >((map, question) => {
-      const normalizedTitle = question.content || question.question || `Câu hỏi ${question.id}`;
+      const normalizedTitle = question.content || `Câu hỏi ${question.id}`;
       const optionsMap: Record<number, string> = {};
       const correctOptions: number[] = [];
 

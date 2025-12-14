@@ -29,6 +29,6 @@ export const storage = {
 };
 
 export const persistAuthResponse = (data: AuthResponse) => {
-  storage.save({ tokens: data.tokens, user: data.user });
+  storage.save({ tokens: data.data.tokens, user: data.data.user });
 };
 

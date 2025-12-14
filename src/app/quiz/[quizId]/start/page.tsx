@@ -86,7 +86,7 @@ export default function QuizStartPage() {
       const existingAttempt = studentStorage.getLocalAttemptByQuizId(Number(params.quizId));
       if (existingAttempt) {
         // Kiểm tra xem thời gian đã hết chưa
-        const timeLimit = quiz?.duration || quiz?.timeLimit || 60;
+        const timeLimit = quiz?.timeLimit || 60;
         const endTime = new Date(new Date(existingAttempt.startAt).getTime() + timeLimit * 60 * 1000);
         if (endTime < new Date()) {
           // Thời gian đã hết, xóa attempt cũ để cho phép làm lại
@@ -141,7 +141,7 @@ export default function QuizStartPage() {
             <div className="flex items-center gap-4 pt-4 text-sm text-gray-600">
               <span>{quiz.questions?.length ?? quiz.number_of_questions ?? 0} câu hỏi</span>
               <span>•</span>
-              <span>{quiz.duration || quiz.timeLimit || 0} phút</span>
+              <span>{quiz.timeLimit || 0} phút</span>
             </div>
           </div>
         </Card>

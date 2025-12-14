@@ -123,7 +123,7 @@ export default function Home() {
                       </div>
                       <div className="flex items-center gap-1">
                         <ClockIcon className="h-4 w-4" />
-                        <span>{quiz.duration || quiz.timeLimit || 0} phút</span>
+                        <span>{quiz.timeLimit || 0} phút</span>
                       </div>
                     </div>
 
